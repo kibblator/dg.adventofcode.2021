@@ -15,5 +15,19 @@
 
             return contents;
         }
+
+        public List<string> LoadStringListFromStrings(string relativeFilePath)
+        {
+            var contents = new List<string>();
+
+            var uriString = Path.Combine(Directory.GetCurrentDirectory(), relativeFilePath);
+            using var fileStream = new StreamReader(File.OpenRead(uriString));
+            while (fileStream.EndOfStream == false)
+            {
+                contents.Add(fileStream.ReadLine());
+            }
+
+            return contents;
+        }
     }
 }

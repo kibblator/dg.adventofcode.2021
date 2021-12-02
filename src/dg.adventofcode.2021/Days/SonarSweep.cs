@@ -1,4 +1,4 @@
-﻿namespace dg.adventofcode._2021
+﻿namespace dg.adventofcode._2021.Days
 {
     public class SonarSweep
     {
