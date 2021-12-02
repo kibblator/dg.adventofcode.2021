@@ -1,4 +1,4 @@
-﻿namespace dg.adventofcode._2021.Days
+﻿namespace dg.adventofcode._2021.Days.Day2
 {
     public class Dive
     {
