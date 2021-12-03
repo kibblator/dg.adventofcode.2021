@@ -33,6 +33,9 @@
     <None Update="TestData\DiveData.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="TestData\BinaryDiagnosticData.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="TestData\SonarSweepSlidingData.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
