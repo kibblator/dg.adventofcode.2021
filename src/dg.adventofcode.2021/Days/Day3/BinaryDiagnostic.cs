@@ -2,14 +2,14 @@
 {
     public class BinaryDiagnostic
     {
-        public int Calculate(List<string> numberData)
+        public int Calculate(List<string> data)
         {
-            var binarySize = numberData.First().Length;
+            var binarySize = data.First().Length;
             var finalBits = "";
 
             for (var i = 0; i < binarySize; i++)
             {
-                var mostOccurringBit = CalcMostOccuringBitInPosition(numberData, i);
+                var mostOccurringBit = CalcMostOccuringBitInPosition(data, i);
 
                 finalBits += mostOccurringBit;
             }
@@ -20,23 +20,47 @@
             return gammaRate * epsilonRate;
         }
 
-        public int CalculateLifeSupportRating(List<string> toList)
+        public int CalculateLifeSupportRating(List<string> data)
         {
             // Calc oxygen 
+            var oxygenList = FilterLifeSupportList(data, data.First().Length, 0, "oxygen");
 
             // Calc CO2
+            var co2List = FilterLifeSupportList(data, data.First().Length, 0, "co2");
 
-            //Multiple oxygen by CO2
+            // Multiple oxygen by CO2
+            var oxygenRating = Convert.ToInt32(oxygenList.First(), 2);
+            var co2Rating = Convert.ToInt32(co2List.First(), 2);
 
-            return 0;
+            return oxygenRating * co2Rating;
         }
 
-        private static string CalcMostOccuringBitInPosition(List<string> numberData, int i)
+        public List<string> FilterLifeSupportList(List<string> data, int numberOfBits, int position, string type)
+        {
+            if (position == numberOfBits || data.Count == 1)
+                return data;
+
+            var mostOccuringBit = CalcMostOccuringBitInPosition(data, position);
+            List<string> newData;
+
+            if (type == "oxygen")
+            {
+                newData = data.Where(d => d[position].ToString() == mostOccuringBit).ToList();
+                
+            }
+            else
+            {
+                newData = data.Where(d => d[position].ToString() != mostOccuringBit).ToList();
+            }
+            return FilterLifeSupportList(newData, numberOfBits, position + 1, type);
+        }
+
+        private static string CalcMostOccuringBitInPosition(List<string> data, int i)
         {
             var zeros = 0;
             var ones = 0;
 
-            foreach (var t in numberData)
+            foreach (var t in data)
             {
                 if (t[i].ToString() == "1")
                 {
