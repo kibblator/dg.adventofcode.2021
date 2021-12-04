@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using dg.adventofcode._2021.crosscutting;
 using dg.adventofcode._2021.Days.Day4;
 using Xunit;
@@ -16,9 +17,9 @@ namespace dg.adventofcode._2021.tests
         }
 
         public static IEnumerable<object> Data =>
-            new List<object>
+            new object[]
             {
-                new List<string>
+                new string[]
                 {
                     "7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,18,20,8,19,3,26,1",
                     "",
@@ -44,9 +45,9 @@ namespace dg.adventofcode._2021.tests
 
         [Theory]
         [MemberData(nameof(Data))]
-        public void GiantSquid_ReturnsWinningBoardScore(List<string> gameInput)
+        public void GiantSquid_ReturnsWinningBoardScore(params string[] gameInput)
         {
-            var winningBoardScore = new GiantSquid().GetWinningBoardScore(gameInput);
+            var winningBoardScore = new GiantSquid().GetWinningBoardScore(gameInput.ToList());
 
             Assert.Equal(4512, winningBoardScore);
         }
