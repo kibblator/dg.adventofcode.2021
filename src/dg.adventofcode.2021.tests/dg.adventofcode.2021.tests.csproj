@@ -27,6 +27,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="TestData\GiantSquid.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="TestData\DiveDataAim.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
