@@ -48,5 +48,39 @@ namespace dg.adventofcode._2021.tests
 
             _output.WriteLine(result.ToString());
         }
+
+        [Theory]
+        [InlineData("00100",
+            "11110",
+            "10110",
+            "10111",
+            "10101",
+            "01111",
+            "00111",
+            "11100",
+            "10000",
+            "11001",
+            "00010",
+            "01010")]
+        public void CalcLifeSupportRating(params string[] numberData)
+        {
+            var binaryDiag = new BinaryDiagnostic();
+
+            var result = binaryDiag.CalculateLifeSupportRating(numberData.ToList());
+
+            Assert.Equal(230, result);
+        }
+
+        [Fact]
+        public void ActualLieSupportTest()
+        {
+            var binaryDiag = new BinaryDiagnostic();
+
+            var textFileLoader = new TextFileLoader();
+            var testData = textFileLoader.LoadStringListFromStrings("TestData\\BinaryDiagnosticData.txt");
+            var result = binaryDiag.CalculateLifeSupportRating(testData);
+
+            _output.WriteLine(result.ToString());
+        }
     }
 }
