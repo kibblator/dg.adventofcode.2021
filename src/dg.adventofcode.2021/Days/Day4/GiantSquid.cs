@@ -6,9 +6,8 @@
 
         public int GetWinningBoardScore(List<string> gameInput)
         {
+            var boards = GetPlayableBoards(gameInput);
             var callouts = gameInput.First().Split(',');
-            var boards = ParseBoards(gameInput.Skip(2).Where(l => string.IsNullOrEmpty(l) == false).ToList());
-
             var calloutsSoFar = callouts.Take(4).ToList();
 
             for(var i = 4; i < callouts.Length; i++)
@@ -18,10 +17,7 @@
 
                 foreach (var board in boards)
                 {
-                    var columnWinner = CheckColumnWinner(board, calloutsSoFar);
-                    var rowWinner = CheckRowWinner(board, calloutsSoFar);
-
-                    if (rowWinner || columnWinner)
+                    if (BoardHasWon(board, calloutsSoFar))
                     {
                         return GetBoardScore(board, calloutsSoFar) * int.Parse(numberCalled);
                     }
@@ -33,10 +29,10 @@
 
         public int GetLosingBoardScore(List<string> gameInput)
         {
+            var boards = GetPlayableBoards(gameInput);
             var callouts = gameInput.First().Split(',');
-            var boards = ParseBoards(gameInput.Skip(2).Where(l => string.IsNullOrEmpty(l) == false).ToList());
-
             var calloutsSoFar = callouts.Take(4).ToList();
+
             var boardsWon = new List<int>();
 
             for (var i = 4; i < callouts.Length; i++)
@@ -46,10 +42,7 @@
 
                 for (var boardCounter = 0; boardCounter < boards.Count; boardCounter++)
                 {
-                    var columnWinner = CheckColumnWinner(boards[boardCounter], calloutsSoFar);
-                    var rowWinner = CheckRowWinner(boards[boardCounter], calloutsSoFar);
-
-                    if (rowWinner || columnWinner)
+                    if (BoardHasWon(boards[boardCounter], calloutsSoFar))
                     {
                         boardsWon.Add(boardCounter);
                         if (boardsWon.Distinct().Count() == boards.Count)
@@ -61,6 +54,16 @@
             }
 
             return 0;
+        }
+
+        private static bool BoardHasWon(string[][] board, List<string> calloutsSoFar)
+        {
+            return CheckRowWinner(board, calloutsSoFar) || CheckColumnWinner(board, calloutsSoFar);
+        }
+
+        private static List<string[][]> GetPlayableBoards(List<string> gameInput)
+        {
+            return ParseBoards(gameInput.Skip(2).Where(l => string.IsNullOrEmpty(l) == false).ToList());
         }
 
         private static bool CheckRowWinner(string[][] board, List<string> calloutsSoFar)
