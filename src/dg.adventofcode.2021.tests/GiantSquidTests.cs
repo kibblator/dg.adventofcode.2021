@@ -63,5 +63,26 @@ namespace dg.adventofcode._2021.tests
 
             _output.WriteLine(result.ToString());
         }
+
+        [Theory]
+        [MemberData(nameof(Data))]
+        public void GiantSquid_ReturnsLosingBoardScore(params string[] gameInput)
+        {
+            var winningBoardScore = new GiantSquid().GetLosingBoardScore(gameInput.ToList());
+
+            Assert.Equal(1924, winningBoardScore);
+        }
+
+        [Fact]
+        public void GiantSquidLosingTest()
+        {
+            var textFileLoader = new TextFileLoader();
+            var gameInput = textFileLoader.LoadStringListFromStrings("TestData\\GiantSquid.txt");
+
+            var giantSquid = new GiantSquid();
+            var result = giantSquid.GetLosingBoardScore(gameInput);
+
+            _output.WriteLine(result.ToString());
+        }
     }
 }

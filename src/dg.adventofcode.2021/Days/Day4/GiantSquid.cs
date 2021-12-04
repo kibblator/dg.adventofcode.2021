@@ -7,7 +7,6 @@
         public int GetWinningBoardScore(List<string> gameInput)
         {
             var callouts = gameInput.First().Split(',');
-
             var boards = ParseBoards(gameInput.Skip(2).Where(l => string.IsNullOrEmpty(l) == false).ToList());
 
             var calloutsSoFar = callouts.Take(4).ToList();
@@ -25,6 +24,38 @@
                     if (rowWinner || columnWinner)
                     {
                         return GetBoardScore(board, calloutsSoFar) * int.Parse(numberCalled);
+                    }
+                }
+            }
+
+            return 0;
+        }
+
+        public int GetLosingBoardScore(List<string> gameInput)
+        {
+            var callouts = gameInput.First().Split(',');
+            var boards = ParseBoards(gameInput.Skip(2).Where(l => string.IsNullOrEmpty(l) == false).ToList());
+
+            var calloutsSoFar = callouts.Take(4).ToList();
+            var boardsWon = new List<int>();
+
+            for (var i = 4; i < callouts.Length; i++)
+            {
+                var numberCalled = callouts[i];
+                calloutsSoFar.Add(numberCalled);
+
+                for (var boardCounter = 0; boardCounter < boards.Count; boardCounter++)
+                {
+                    var columnWinner = CheckColumnWinner(boards[boardCounter], calloutsSoFar);
+                    var rowWinner = CheckRowWinner(boards[boardCounter], calloutsSoFar);
+
+                    if (rowWinner || columnWinner)
+                    {
+                        boardsWon.Add(boardCounter);
+                        if (boardsWon.Distinct().Count() == boards.Count)
+                        {
+                            return GetBoardScore(boards[boardCounter], calloutsSoFar) * int.Parse(numberCalled);
+                        }
                     }
                 }
             }
