@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using dg.adventofcode._2021.crosscutting;
 using dg.adventofcode._2021.Days.Day_5;
-using dg.adventofcode._2021.Days.Day4;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -41,6 +41,18 @@ namespace dg.adventofcode._2021.tests
             var overlappingPoints = new Hydrothermal().GetOverlappingPoints(input.ToList());
 
             Assert.Equal(5, overlappingPoints);
+        }
+
+        [Fact]
+        public void HydrothermalTest()
+        {
+            var textFileLoader = new TextFileLoader();
+            var gameInput = textFileLoader.LoadStringListFromStrings("TestData\\Hydrothermal.txt");
+
+            var hydrothermal = new Hydrothermal();
+            var result = hydrothermal.GetOverlappingPoints(gameInput);
+
+            _output.WriteLine(result.ToString());
         }
     }
 }
