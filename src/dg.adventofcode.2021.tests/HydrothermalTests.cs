@@ -38,7 +38,7 @@ namespace dg.adventofcode._2021.tests
         [MemberData(nameof(Data))]
         public void Hydrothermal_ReturnOverlappingPoints(params string[] input)
         {
-            var overlappingPoints = new Hydrothermal().GetOverlappingPoints(input.ToList());
+            var overlappingPoints = new Hydrothermal().GetOverlappingPoints(input.ToList(), false);
 
             Assert.Equal(5, overlappingPoints);
         }
@@ -51,6 +51,27 @@ namespace dg.adventofcode._2021.tests
 
             var hydrothermal = new Hydrothermal();
             var result = hydrothermal.GetOverlappingPoints(gameInput);
+
+            _output.WriteLine(result.ToString());
+        }
+
+        [Theory]
+        [MemberData(nameof(Data))]
+        public void Hydrothermal_ReturnOverlappingPointsWithDiagonals(params string[] input)
+        {
+            var overlappingPoints = new Hydrothermal().GetOverlappingPoints(input.ToList(), true);
+
+            Assert.Equal(12, overlappingPoints);
+        }
+
+        [Fact]
+        public void HydrothermalTestWithDiagonals()
+        {
+            var textFileLoader = new TextFileLoader();
+            var gameInput = textFileLoader.LoadStringListFromStrings("TestData\\Hydrothermal.txt");
+
+            var hydrothermal = new Hydrothermal();
+            var result = hydrothermal.GetOverlappingPoints(gameInput, true);
 
             _output.WriteLine(result.ToString());
         }

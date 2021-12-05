@@ -1,10 +1,12 @@
-﻿namespace dg.adventofcode._2021.Days.Day_5
+﻿using System.Reflection.Metadata.Ecma335;
+
+namespace dg.adventofcode._2021.Days.Day_5
 {
     public class Hydrothermal
     {
-        public int GetOverlappingPoints(List<string> input)
+        public int GetOverlappingPoints(List<string> input, bool considerDiagonals = false)
         {
-            var allCoords = GetAllCoords(input);
+            var allCoords = GetAllCoords(input, considerDiagonals);
             var maxX = allCoords.Max(c => c.x)+1;
             var maxY = allCoords.Max(c => c.y)+1;
 
@@ -39,7 +41,7 @@
             return pointsOverTwo;
         }
 
-        private static IList<Point> GetAllCoords(List<string> input)
+        private static IList<Point> GetAllCoords(List<string> input, bool considerDiagonals)
         {
             var allCoords = new List<Point>();
 
@@ -52,13 +54,13 @@
                 var fromPoint = GetPoint(fromLine);
                 var toPoint = GetPoint(toLine);
 
-                allCoords.AddRange(GetIntermediatePoints(fromPoint, toPoint));
+                allCoords.AddRange(GetIntermediatePoints(fromPoint, toPoint, considerDiagonals));
             }
 
             return allCoords;
         }
 
-        private static IEnumerable<Point> GetIntermediatePoints(Point fromPoint, Point toPoint)
+        private static IEnumerable<Point> GetIntermediatePoints(Point fromPoint, Point toPoint, bool considerDiagonals)
         {
             var points = new List<Point>();
 
@@ -71,6 +73,34 @@
             {
                 var singlePoints = GenerateGapPoints(fromPoint.y, toPoint.y);
                 points.AddRange(singlePoints.Select(point => new Point { x = fromPoint.x, y = point }));
+            }
+            else if (considerDiagonals)
+            {
+                points.AddRange(GenerateDiagonalGapPoints(fromPoint, toPoint));
+            }
+
+            return points;
+        }
+
+        private static IEnumerable<Point> GenerateDiagonalGapPoints(Point fromPoint, Point toPoint)
+        {
+            var points = new List<Point>();
+
+            var xDiff = toPoint.x - fromPoint.x;
+            var yDiff = toPoint.y - fromPoint.y;
+
+            var xIsPositive = xDiff >= 0;
+            var xPositiveDifference = xIsPositive ? xDiff : xDiff * -1;
+
+            var yIsPositive = yDiff >= 0;
+            
+            for (var i = 0; i <= xPositiveDifference; i++)
+            {
+                points.Add(new Point
+                {
+                    x = xIsPositive ? fromPoint.x + i : fromPoint.x - i,
+                    y = yIsPositive ? fromPoint.y + i : fromPoint.y - i
+                });
             }
 
             return points;
