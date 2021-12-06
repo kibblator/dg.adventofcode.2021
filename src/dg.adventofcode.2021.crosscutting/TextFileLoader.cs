@@ -29,5 +29,12 @@
 
             return contents;
         }
+
+        public string LoadString(string relativeFilePath)
+        {
+            var uriString = Path.Combine(Directory.GetCurrentDirectory(), relativeFilePath);
+            using var fileStream = new StreamReader(File.OpenRead(uriString));
+            return fileStream.ReadLine();
+        }
     }
 }
