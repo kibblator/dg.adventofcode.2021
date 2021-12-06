@@ -4,7 +4,7 @@ using dg.adventofcode._2021.Days.Day3;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace dg.adventofcode._2021.tests
+namespace dg.adventofcode._2021.tests.Days.Day3
 {
     public class BinaryDiagnosticTests
     {

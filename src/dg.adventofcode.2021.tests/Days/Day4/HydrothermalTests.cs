@@ -5,7 +5,7 @@ using dg.adventofcode._2021.Days.Day_5;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace dg.adventofcode._2021.tests
+namespace dg.adventofcode._2021.tests.Days.Day4
 {
     public class HydrothermalTests
     {

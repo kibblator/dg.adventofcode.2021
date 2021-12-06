@@ -3,7 +3,7 @@ using dg.adventofcode._2021.Days.Day1;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace dg.adventofcode._2021.tests
+namespace dg.adventofcode._2021.tests.Days.Day1
 {
     public class SonarSweepTests
     {

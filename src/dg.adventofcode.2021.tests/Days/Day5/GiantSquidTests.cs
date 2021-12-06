@@ -5,7 +5,7 @@ using dg.adventofcode._2021.Days.Day4;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace dg.adventofcode._2021.tests
+namespace dg.adventofcode._2021.tests.Days.Day5
 {
     public class GiantSquidTests
     {
