@@ -6,7 +6,7 @@
         private const int DaysUntilFishBreed = 6;
         private const int FishBirthingAge = 0;
 
-        public long GetNumLanternfish(string lanternFishState, int daysToGet, Action<string> logOutput = null)
+        public long GetNumLanternfish(string lanternFishState, int daysToGet)
         {
             var fishState = lanternFishState.Split(',').Select(int.Parse).OrderBy(f => f);
 
@@ -63,11 +63,6 @@
         private static void GetFishPregnantAgain(IDictionary<int, long> fishAgeList, long newFishToBeAdded)
         {
             fishAgeList[DaysUntilFishBreed] += newFishToBeAdded;
-        }
-
-        private static void AgeCurrentFish(IDictionary<int, long> fishAgeList, int fishAge)
-        {
-            fishAgeList[fishAge] = fishAgeList[fishAge + 1];
         }
 
         private static long GetFishAboutToPop(IReadOnlyDictionary<int, long> fishAgeList)

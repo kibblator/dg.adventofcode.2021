@@ -18,7 +18,7 @@ namespace dg.adventofcode._2021.tests.Days.Day6
         [InlineData("3,4,3,1,2")]
         public void Lanternfish_ReturnsNumLanternfish(string input)
         {
-            var numLanternFish = new Lanternfish().GetNumLanternfish(input, 80, s => _output.WriteLine(s));
+            var numLanternFish = new Lanternfish().GetNumLanternfish(input, 80);
 
             Assert.Equal(5934, numLanternFish);
         }
