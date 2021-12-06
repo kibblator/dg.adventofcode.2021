@@ -1,5 +1,4 @@
-﻿using System;
-using dg.adventofcode._2021.crosscutting;
+﻿using dg.adventofcode._2021.crosscutting;
 using dg.adventofcode._2021.Days.Day6;
 using Xunit;
 using Xunit.Abstractions;
