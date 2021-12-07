@@ -42,6 +42,9 @@
     <None Update="TestData\BinaryDiagnosticData.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="TestData\Whales.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="TestData\Lanternfish.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
