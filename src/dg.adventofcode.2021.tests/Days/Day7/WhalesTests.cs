@@ -36,7 +36,7 @@ namespace dg.adventofcode._2021.tests.Days.Day7
         }
 
         [Theory]
-        [InlineData("3,4,3,1,2")]
+        [InlineData("16,1,2,0,4,2,7,1,2,14")]
         public void ExampleTestCase2(string input)
         {
             var fuelCost = new Whales().CalculateFuel(input, true);
