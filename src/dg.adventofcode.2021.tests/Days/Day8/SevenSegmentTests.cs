@@ -54,5 +54,35 @@ namespace dg.adventofcode._2021.tests.Days.Day8
 
             _output.WriteLine(result.ToString());
         }
+
+        [Theory]
+        [InlineData("acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf")]
+        public void ExampleTestCase2(string input)
+        {
+            var outputValue = new SevenSegment().CalcOutputValue(new List<string>{input});
+
+            Assert.Equal(5353, outputValue);
+        }
+
+        [Theory]
+        [MemberData(nameof(Data))]
+        public void ExampleTestCase3(params string[] input)
+        {
+            var outputValue = new SevenSegment().CalcOutputValue(input.ToList());
+
+            Assert.Equal(61229, outputValue);
+        }
+
+        [Fact]
+        public void Part2Test()
+        {
+            var textFileLoader = new TextFileLoader();
+            var input = textFileLoader.LoadStringListFromStrings("TestData\\SevenSegment.txt");
+
+            var occurrences = new SevenSegment();
+            var result = occurrences.CalcOutputValue(input);
+
+            _output.WriteLine(result.ToString());
+        }
     }
 }
