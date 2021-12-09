@@ -7,11 +7,11 @@ using Xunit.Abstractions;
 
 namespace dg.adventofcode._2021.tests.Days.Day8
 {
-    public class SevenSegmentTests
+    public class SmokeBasinTests
     {
         private readonly ITestOutputHelper _output;
 
-        public SevenSegmentTests(ITestOutputHelper output)
+        public SmokeBasinTests(ITestOutputHelper output)
         {
             _output = output;
         }
