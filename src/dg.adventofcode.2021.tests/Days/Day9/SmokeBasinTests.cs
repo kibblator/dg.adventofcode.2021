@@ -33,9 +33,9 @@ namespace dg.adventofcode._2021.tests.Days.Day9
         [MemberData(nameof(Data))]
         public void ExampleTestCase(params string[] input)
         {
-            var occurrences = new SmokeBasin().CalcRisk(input.ToList());
+            var risk = new SmokeBasin().CalcRisk(input.ToList());
 
-            Assert.Equal(15, occurrences);
+            Assert.Equal(15, risk);
         }
 
         [Fact]
@@ -44,8 +44,29 @@ namespace dg.adventofcode._2021.tests.Days.Day9
             var textFileLoader = new TextFileLoader();
             var input = textFileLoader.LoadStringListFromStrings("TestData\\SmokeBasin.txt");
 
-            var occurrences = new SmokeBasin();
-            var result = occurrences.CalcRisk(input);
+            var risk = new SmokeBasin();
+            var result = risk.CalcRisk(input);
+
+            _output.WriteLine(result.ToString());
+        }
+
+        [Theory]
+        [MemberData(nameof(Data))]
+        public void ExampleTestCase2(params string[] input)
+        {
+            var basinSizes = new SmokeBasin().CalcBasins(input.ToList());
+
+            Assert.Equal(1134, basinSizes);
+        }
+
+        [Fact]
+        public void Part2Test()
+        {
+            var textFileLoader = new TextFileLoader();
+            var input = textFileLoader.LoadStringListFromStrings("TestData\\SmokeBasin.txt");
+
+            var risk = new SmokeBasin();
+            var result = risk.CalcBasins(input);
 
             _output.WriteLine(result.ToString());
         }

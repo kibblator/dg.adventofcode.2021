@@ -5,18 +5,37 @@
         public int CalcRisk(List<string> input)
         {
             var cave = ParseCave(input);
-
-            var lowPoints = FindLowPoints(cave);
-
-            return lowPoints.Sum(lp => lp + 1);
-        }
-
-        private IEnumerable<int> FindLowPoints(int[][] cave)
-        {
             var caveLength = cave.First().Length;
             var caveDepth = cave.Length;
 
-            var lowPoints = new List<int>();
+            var lowPoints = FindLowPoints(cave, caveLength, caveDepth);
+            var lowPointValues = lowPoints.Select(coord => cave[coord.y][coord.x]).ToList();
+
+            return lowPointValues.Sum(lp => lp + 1);
+        }
+
+        public int CalcBasins(List<string> input)
+        {
+            var cave = ParseCave(input);
+            var caveLength = cave.First().Length;
+            var caveDepth = cave.Length;
+
+            var lowPoints = FindLowPoints(cave, caveLength, caveDepth);
+            var basinSizes = new List<int>();
+
+            foreach (var lowPoint in lowPoints)
+            {
+                var coords = WorkOutBasinSize(cave, lowPoint.y, lowPoint.x, new List<Coord>());
+                basinSizes.Add(coords.Count);
+            }
+
+            var topThree = basinSizes.OrderByDescending(b => b).Take(3);
+            return topThree.Aggregate((a, b) => a * b);
+        }
+
+        private IEnumerable<Coord> FindLowPoints(int[][] cave, int caveLength, int caveDepth)
+        {
+            var lowPoints = new List<Coord>();
 
             for (var depth = 0; depth < caveDepth; depth++)
             {
@@ -26,7 +45,7 @@
                     var surroundingValues = GetSurroundingValues(cave, depth, length, caveLength, caveDepth);
                     if (surroundingValues.Any(sv => sv <= numToCheck) == false)
                     {
-                        lowPoints.Add(numToCheck);
+                        lowPoints.Add(new Coord{y = depth, x = length});
                     }
                 }
             }
@@ -57,11 +76,32 @@
 
             if (TouchingTop(currentDepth) == false)
             {
-                var topValue = cave[currentDepth -1 ][currentLength];
+                var topValue = cave[currentDepth -1][currentLength];
                 surroundingValues.Add(topValue);
             }
 
             return surroundingValues;
+        }
+
+        private List<Coord> WorkOutBasinSize(int[][] cave, int x, int y, List<Coord> basinCoords)
+        {
+            try
+            {
+                if (cave[x][y] != 9 && basinCoords.Any(b => b.x == x && b.y == y) == false)
+                {
+                    basinCoords.Add(new Coord{x = x, y = y});
+                    WorkOutBasinSize(cave, x + 1, y, basinCoords);
+                    WorkOutBasinSize(cave, x - 1, y, basinCoords);
+                    WorkOutBasinSize(cave, x, y + 1, basinCoords);
+                    WorkOutBasinSize(cave, x, y - 1, basinCoords);
+                }
+            }
+            catch (Exception e)
+            {
+                return basinCoords;
+            }
+
+            return basinCoords;
         }
 
         private static bool TouchingTop(int currentDepth)
@@ -95,6 +135,12 @@
             }
 
             return cave;
+        }
+
+        private class Coord
+        {
+            public int x { get; set; }
+            public int y { get; set; }
         }
     }
 }
