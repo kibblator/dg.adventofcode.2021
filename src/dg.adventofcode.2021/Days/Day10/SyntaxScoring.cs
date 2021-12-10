@@ -2,7 +2,7 @@
 {
     public class SyntaxScoring
     {
-        private readonly List<string> _openingCharacters = new List<string>
+        private readonly List<string> _openingCharacters = new()
         {
             "(",
             "[",
@@ -10,15 +10,7 @@
             "<",
         };
 
-        private List<string> _closingCharacter = new List<string>
-        {
-             ")",
-             "]",
-             "}",
-             ">",
-        };
-
-        private readonly Dictionary<string, string> _charPairs = new Dictionary<string, string>
+        private readonly Dictionary<string, string> _charPairs = new()
         {
             {"(",")"} ,
             {"[","]"},
@@ -26,7 +18,7 @@
             {"<",">"}
         };
 
-        private readonly Dictionary<string, int> _mismatchScores = new Dictionary<string, int>()
+        private readonly Dictionary<string, int> _mismatchScores = new()
         {
             { ")", 3 },
             { "]", 57 },
@@ -34,7 +26,7 @@
             { ">", 25137 }
         };
 
-        private readonly Dictionary<string, int> _completionScores = new Dictionary<string, int>()
+        private readonly Dictionary<string, int> _completionScores = new()
         {
             { ")", 1 },
             { "]", 2 },
