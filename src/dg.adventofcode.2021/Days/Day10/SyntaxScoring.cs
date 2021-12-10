@@ -1,7 +1,4 @@
-﻿using System.Globalization;
-using System.Linq.Expressions;
-
-namespace dg.adventofcode._2021.Days.Day10
+﻿namespace dg.adventofcode._2021.Days.Day10
 {
     public class SyntaxScoring
     {
