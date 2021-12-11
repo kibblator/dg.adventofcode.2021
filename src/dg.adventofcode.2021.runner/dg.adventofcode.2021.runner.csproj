@@ -1,14 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
-    <RootNamespace>dg.adventofcode._2021</RootNamespace>
+    <RootNamespace>dg.adventofcode._2021.runner</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\dg.adventofcode.2021.crosscutting\dg.adventofcode.2021.crosscutting.csproj" />
+    <ProjectReference Include="..\dg.adventofcode.2021\dg.adventofcode.2021.csproj" />
   </ItemGroup>
 
 </Project>

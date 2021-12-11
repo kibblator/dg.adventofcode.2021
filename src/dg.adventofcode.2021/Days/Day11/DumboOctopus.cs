@@ -1,8 +1,20 @@
-﻿namespace dg.adventofcode._2021.Days.Day11
+﻿using System.Text;
+using dg.adventofcode._2021.crosscutting;
+
+namespace dg.adventofcode._2021.Days.Day11
 {
-    public class DumboOctopus
+    public class DumboOctopus : IVisualisationClass
     {
         private const int MatrixSize = 10;
+        private Action<string, Dictionary<char, ConsoleColor>> _outputAction;
+
+        public void RunVisualisation(string filePath, Action<string, Dictionary<char, ConsoleColor>> outputToScreen)
+        {
+            _outputAction = outputToScreen;
+            var input = new TextFileLoader().LoadStringListFromStrings(filePath);
+            var octopusGroup = ParseOctopusGroups(input);
+            RunSimulation(100, octopusGroup);
+        }
 
         public int GetNumFlashes(List<string> input, int numSteps = 100, bool breakWhenSimul = false)
         {
@@ -25,6 +37,11 @@
             var totalFlashes = 0;
             for (var i = 0; i < numSteps; i++)
             {
+                if (_outputAction != null)
+                {
+                    _outputAction(GetStringOutput(octopusGroup), new Dictionary<char, ConsoleColor>{{'0', ConsoleColor.Red}});
+                    Thread.Sleep(500);
+                }
                 var flashedThisRound = new List<Coord>();
                 for (var depth = 0; depth < MatrixSize; depth++)
                 {
@@ -40,6 +57,23 @@
             }
 
             return totalFlashes;
+        }
+
+        private static string GetStringOutput(int[][] octopusGroup)
+        {
+            var stringBuilder = new StringBuilder();
+            for (var depth = 0; depth < MatrixSize; depth++)
+            {
+                var lineString = "";
+                for (var length = 0; length < MatrixSize; length++)
+                {
+                    lineString += $"{octopusGroup[depth][length]} ";
+                }
+
+                stringBuilder.AppendLine(lineString);
+            }
+
+            return stringBuilder.ToString();
         }
 
         private void IncrementOctopus(int[][] octopusGroup, int depth, int length, List<Coord> flashedThisRound)
