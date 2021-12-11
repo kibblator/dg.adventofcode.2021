@@ -54,5 +54,17 @@ namespace dg.adventofcode._2021.tests.Days.Day11
 
             _output.WriteLine(result.ToString());
         }
+
+        [Fact]
+        public void Part2Test()
+        {
+            var textFileLoader = new TextFileLoader();
+            var input = textFileLoader.LoadStringListFromStrings("TestData\\DumboOctopus.txt");
+
+            var dumboOctopus = new DumboOctopus();
+            var result = dumboOctopus.GetSimultaneousFlashStep(input);
+
+            _output.WriteLine(result.ToString());
+        }
     }
 }

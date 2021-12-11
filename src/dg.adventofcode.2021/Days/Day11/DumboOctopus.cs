@@ -4,11 +4,25 @@
     {
         private const int MatrixSize = 10;
 
-        public int GetNumFlashes(List<string> input, int numSteps = 100)
+        public int GetNumFlashes(List<string> input, int numSteps = 100, bool breakWhenSimul = false)
         {
             var octopusGroup = ParseOctopusGroups(input);
             var totalFlashes = 0;
 
+            totalFlashes = RunSimulation(numSteps, octopusGroup);
+
+            return totalFlashes;
+        }
+
+        public int GetSimultaneousFlashStep(List<string> input)
+        {
+            var octopusGroup = ParseOctopusGroups(input);
+            return RunSimulation(1000, octopusGroup, true);
+        }
+
+        private int RunSimulation(int numSteps, int[][] octopusGroup, bool returnFlashPointStep = false)
+        {
+            var totalFlashes = 0;
             for (var i = 0; i < numSteps; i++)
             {
                 var flashedThisRound = new List<Coord>();
@@ -21,6 +35,8 @@
                 }
 
                 totalFlashes += flashedThisRound.Count;
+                if (returnFlashPointStep && flashedThisRound.Count == 100)
+                    return i + 1;
             }
 
             return totalFlashes;
