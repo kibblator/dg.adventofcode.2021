@@ -48,6 +48,9 @@
     <None Update="TestData\SmokeBasin.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="TestData\DumboOctopus.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="TestData\SyntaxScoring.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
