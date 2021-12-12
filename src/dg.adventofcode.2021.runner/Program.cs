@@ -1,5 +1,4 @@
 ﻿using dg.adventofcode._2021;
-using dg.adventofcode._2021.crosscutting;
 using dg.adventofcode._2021.Days.Day11;
 
 Console.WriteLine("Which day would you like to visualise? Current options are:" + Environment.NewLine);
