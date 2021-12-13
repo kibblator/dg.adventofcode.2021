@@ -1,10 +1,12 @@
 ﻿using dg.adventofcode._2021;
 using dg.adventofcode._2021.Days.Day11;
+using dg.adventofcode._2021.Days.Day12;
 
 Console.WriteLine("Which day would you like to visualise? Current options are:" + Environment.NewLine);
 var visualisationDays = new Dictionary<int, string>
 {
-    {11, $"{typeof(DumboOctopus).AssemblyQualifiedName}|TestData\\DumboOctopus.txt"}
+    {11, $"{typeof(DumboOctopus).AssemblyQualifiedName}|TestData\\DumboOctopus.txt"},
+    {12, $"{typeof(Passage).AssemblyQualifiedName}|TestData\\Passage.txt"}
 };
 
 Console.WriteLine($"{string.Join(Environment.NewLine, visualisationDays.Select(d => $"Day '{d.Key}'"))}");

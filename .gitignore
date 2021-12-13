@@ -4,3 +4,4 @@ obj/
 bin/
 project-colors.json
 *.user
+*.suo

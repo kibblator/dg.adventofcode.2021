@@ -1,12 +1,27 @@
-﻿namespace dg.adventofcode._2021.Days.Day12
+﻿using dg.adventofcode._2021.crosscutting;
+
+namespace dg.adventofcode._2021.Days.Day12
 {
-    public class Passage
+    public class Passage : IVisualisationClass
     {
         private readonly bool _parseSmallTwice;
+        private Action<string, Dictionary<char, ConsoleColor>> _outputAction;
+
+        public Passage()
+        {
+            _parseSmallTwice = true;
+        }
 
         public Passage(bool parseSmallTwice = false)
         {
             _parseSmallTwice = parseSmallTwice;
+        }
+
+        public void RunVisualisation(string filePath, Action<string, Dictionary<char, ConsoleColor>> outputToScreen)
+        {
+            _outputAction = outputToScreen;
+            var input = new TextFileLoader().LoadStringListFromStrings(filePath);
+            GetNumPaths(input);
         }
 
         public int GetNumPaths(List<string> input)
@@ -56,6 +71,18 @@
 
         private void CalculateNextStep(IReadOnlyDictionary<string, List<string>> possiblePaths, IList<string> currentPathList, string currentStep, string stepsString)
         {
+            if (_outputAction != null)
+            {
+                var output = "";
+                foreach (var path in currentPathList)
+                {
+                    output += string.Join("->", path.Split(',')) + Environment.NewLine;
+                }
+                output += $"{string.Join("->", stepsString.Split(','))}->{currentStep}";
+                _outputAction(output, new Dictionary<char, ConsoleColor>());
+                Thread.Sleep(200);
+            }
+
             stepsString = string.IsNullOrEmpty(stepsString) ? currentStep : string.Join(',', stepsString, currentStep);
             if (currentStep == "end")
             {
