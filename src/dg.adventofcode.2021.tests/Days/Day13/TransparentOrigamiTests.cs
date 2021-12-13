@@ -49,7 +49,7 @@ namespace dg.adventofcode._2021.tests.Days.Day13
         [MemberData(nameof(FoldInstructionsPart1))]
         public void ExampleTestCase(params string[] input)
         {
-            var numPaths = new TransparentOrigami().GetNumDots(input.ToList());
+            var numPaths = new TransparentOrigami().GetNumDots(input.ToList(), o => _output.WriteLine(o), false);
 
             Assert.Equal(17, numPaths);
         }
@@ -61,7 +61,19 @@ namespace dg.adventofcode._2021.tests.Days.Day13
             var input = textFileLoader.LoadStringListFromStrings("TestData\\TransparentOrigami.txt");
 
             var transparentOrigami = new TransparentOrigami();
-            var result = transparentOrigami.GetNumDots(input);
+            var result = transparentOrigami.GetNumDots(input, o => _output.WriteLine(o), true);
+
+            _output.WriteLine(result.ToString());
+        }
+
+        [Fact]
+        public void Part2Test()
+        {
+            var textFileLoader = new TextFileLoader();
+            var input = textFileLoader.LoadStringListFromStrings("TestData\\TransparentOrigami.txt");
+
+            var transparentOrigami = new TransparentOrigami();
+            var result = transparentOrigami.GetNumDots(input, o => _output.WriteLine(o), false);
 
             _output.WriteLine(result.ToString());
         }
