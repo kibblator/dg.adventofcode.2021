@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace dg.adventofcode._2021.Days.Day13
+﻿namespace dg.adventofcode._2021.Days.Day13
 {
     public class TransparentOrigami
     {
@@ -13,52 +11,71 @@ namespace dg.adventofcode._2021.Days.Day13
 
             var instructions = ParseFoldInstructions(inputParts.FoldInstructions);
             var coords = ParseCoords(inputParts.Coords).ToList();
-            var matrix = GetMatrix(coords.Max(c => c.y) + 1, coords.Max(c => c.x) + 1);
+            var matrix = GetMatrix(GetYSize(instructions.First(i => i.Axis == "y")), GetXSize(instructions.First(i => i.Axis == "x")));
+            matrix = GetMatrixOfCoords(matrix, coords, GetYSize(instructions.First(i => i.Axis == "y")), GetXSize(instructions.First(i => i.Axis == "x")));
 
             if (isPart1)
             {
                 var foldInstruction = instructions.First();
                 coords = GetFoldedCoords(foldInstruction, coords);
-                matrix = GetMatrixOfCoords(coords, GetHeightFromNextInstruction(foldInstruction, matrix),
+                matrix = GetMatrixOfCoords(matrix, coords, GetHeightFromNextInstruction(foldInstruction, matrix),
                     GetWidthFromNextInstruction(foldInstruction, matrix));
                 OutputCoords(matrix);
             }
             else
             {
+                var count = 0;
                 foreach (var foldInstruction in instructions)
                 {
                     coords = GetFoldedCoords(foldInstruction, coords);
-                    matrix = GetMatrixOfCoords(coords, GetHeightFromNextInstruction(foldInstruction, matrix),
+                    matrix = GetMatrixOfCoords(matrix, coords, GetHeightFromNextInstruction(foldInstruction, matrix),
                         GetWidthFromNextInstruction(foldInstruction, matrix));
+                    
+                    if (count > 8)
+                        OutputCoords(matrix);
+                    count++;
                 }
-                OutputCoords(matrix);
             }
 
             return coords.Count;
         }
 
-        private static int GetWidthFromNextInstruction(FoldInstruction foldInstruction, IEnumerable<IEnumerable<string>> matrix)
+        private static int GetXSize(FoldInstruction instruction)
         {
-            return foldInstruction.Axis == "x" ? foldInstruction.Point : matrix.First().Count();
+            return instruction.Point * 2;
         }
 
-        private static int GetHeightFromNextInstruction(FoldInstruction foldInstruction, IEnumerable<IEnumerable<string>> matrix)
+        private static int GetYSize(FoldInstruction instruction)
         {
-            return foldInstruction.Axis == "y" ? foldInstruction.Point : matrix.Count();
+            return instruction.Point * 2;
+        }
+
+        private static int GetWidthFromNextInstruction(FoldInstruction foldInstruction, string[][] matrix)
+        {
+            return foldInstruction.Axis == "x" ? foldInstruction.Point : matrix.First().Length;
+        }
+
+        private static int GetHeightFromNextInstruction(FoldInstruction foldInstruction, string[][] matrix)
+        {
+            return foldInstruction.Axis == "y" ? foldInstruction.Point : matrix.Length;
         }
 
         private void OutputCoords(IEnumerable<IEnumerable<string>> matrix)
         {
             using (var fileStream = new StreamWriter(File.OpenWrite("TestData\\TransparentOrigami_Results.txt")))
             {
-                foreach (var line in matrix)
+                for (var line = 0; line < matrix.Count(); line++)
                 {
-                    fileStream.WriteLine(string.Join(" ", line));
-                    _outputMethod(string.Join(" ", line));
+                    fileStream.WriteLine(string.Join("", matrix.ToList()[line]));
+                    _outputMethod(string.Join("", matrix.ToList()[line]));
                 }
+                _outputMethod("");
+                _outputMethod("");
+                fileStream.WriteLine("");
+                fileStream.WriteLine("");
             }
         }
-        private IEnumerable<IEnumerable<string>> GetMatrix(int height, int width)
+        private string[][] GetMatrix(int height, int width)
         {
             var matrix = new string[height][];
             for (var y = 0; y < height; y++)
@@ -73,14 +90,14 @@ namespace dg.adventofcode._2021.Days.Day13
             return matrix;
         }
 
-        private IEnumerable<IEnumerable<string>> GetMatrixOfCoords(List<Coord> coords, int height, int width)
+        private string[][] GetMatrixOfCoords(string[][] matrix, List<Coord> coords, int height, int width)
         {
-            var matrix = new string[height][];
+            matrix = matrix.Take(height).ToArray();
             for (var y = 0; y < height; y++)
             {
-                matrix[y] = new string[width];
                 for (var x = 0; x < width; x++)
                 {
+                    matrix[y] = matrix[y].Take(width).ToArray();
                     matrix[y][x] = coords.Any(c => c.x == x && c.y == y) ? "#" : ".";
                 }
             }
@@ -88,7 +105,7 @@ namespace dg.adventofcode._2021.Days.Day13
             return matrix;
         }
 
-        private static List<Coord> GetFoldedCoords(FoldInstruction fi, List<Coord> coords)
+        public static List<Coord> GetFoldedCoords(FoldInstruction fi, List<Coord> coords)
         {
             var coordinateList = coords.ToList();
 
@@ -97,15 +114,13 @@ namespace dg.adventofcode._2021.Days.Day13
 
             if (fi.Axis == "x")
             {
-                var maxX = coords.Max(c => c.x);
-                var newX = listB.Select(coord => coord.x - (maxX + 2) / 2).ToList().ReverseValues(maxX / 2);
+                var newX = listB.Select(coord => GetValueAfterFold(fi.Point, coord.x));
                 var newXCoords = newX.Select((t, i) => new Coord { x = t, y = listB[i].y }).ToList();
                 listA.AddRange(newXCoords.Where(newXCoord => listA.Any(l => l.x == newXCoord.x && l.y == newXCoord.y) == false));
             }
             else
             {
-                var maxY = coords.Max(c => c.y);
-                var newY = listB.Select(coord => coord.y - (maxY + 2) / 2).ToList().ReverseValues(maxY / 2);
+                var newY = listB.Select(coord => GetValueAfterFold(fi.Point, coord.y));
                 var newYCoords = newY.Select((t, i) => new Coord { y = t, x = listB[i].x }).ToList();
                 listA.AddRange(newYCoords.Where(newYCoord => listA.Any(l => l.x == newYCoord.x && l.y == newYCoord.y) == false));
             }
@@ -113,6 +128,12 @@ namespace dg.adventofcode._2021.Days.Day13
             coordinateList = listA;
 
             return coordinateList;
+        }
+
+        private static int GetValueAfterFold(int foldPoint, int x)
+        {
+            var diff = x - foldPoint;
+            return foldPoint - diff;
         }
 
         private static IEnumerable<Coord> ParseCoords(IEnumerable<string> inputPartsCoords)
@@ -154,7 +175,7 @@ namespace dg.adventofcode._2021.Days.Day13
         }
     }
 
-    internal class FoldInstruction
+    public class FoldInstruction
     {
         public FoldInstruction(string axis, int point)
         {
@@ -178,7 +199,7 @@ namespace dg.adventofcode._2021.Days.Day13
         public List<string> FoldInstructions { get; }
     }
 
-    internal class Coord
+    public class Coord
     {
         public int x { get; set; }
         public int y { get; set; }

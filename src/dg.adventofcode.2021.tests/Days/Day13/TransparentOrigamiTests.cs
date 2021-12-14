@@ -77,5 +77,20 @@ namespace dg.adventofcode._2021.tests.Days.Day13
 
             _output.WriteLine(result.ToString());
         }
+
+        [Fact]
+        public void FixStuff()
+        {
+            var coords = TransparentOrigami.GetFoldedCoords(new FoldInstruction("x", 655),
+                new List<Coord>() { { new Coord() { x = 1148, y = 688 } } });
+            Assert.Equal(162, coords.FirstOrDefault().x);
+        }
+        [Fact]
+        public void FixStuffYAxis()
+        {
+            var coords = TransparentOrigami.GetFoldedCoords(new FoldInstruction("y", 655),
+                new List<Coord>() { { new Coord() { x = 688, y = 1148 } } });
+            Assert.Equal(162, coords.FirstOrDefault().y);
+        }
     }
 }
