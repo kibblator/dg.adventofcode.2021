@@ -50,6 +50,9 @@
     <None Update="TestData\TransparentOrigami.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="TestData\ExtendedPoly.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="TestData\Whales.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
