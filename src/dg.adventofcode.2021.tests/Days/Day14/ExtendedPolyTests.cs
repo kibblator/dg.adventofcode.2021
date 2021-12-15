@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using dg.adventofcode._2021.crosscutting;
-using dg.adventofcode._2021.Days.Day13;
 using dg.adventofcode._2021.Days.Day14;
 using Xunit;
 using Xunit.Abstractions;
@@ -71,6 +70,19 @@ namespace dg.adventofcode._2021.tests.Days.Day14
             var quantityDiff = new ExtendedPoly().GetQuantityDiff(input.ToList(), 40);
 
             Assert.Equal(2188189693529, quantityDiff);
+
+        }
+
+        [Fact]
+        public void Part2Test()
+        {
+            var textFileLoader = new TextFileLoader();
+            var input = textFileLoader.LoadStringListFromStrings("TestData\\ExtendedPoly.txt");
+
+            var extendedPoly = new ExtendedPoly();
+            var result = extendedPoly.GetQuantityDiff(input, 40);
+
+            _output.WriteLine(result.ToString());
         }
     }
 }
