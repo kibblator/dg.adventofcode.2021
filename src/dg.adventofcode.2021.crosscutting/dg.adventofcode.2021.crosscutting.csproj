@@ -41,6 +41,9 @@
     <None Update="TestData\SonarSweepSlidingData.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="TestData\Chiton.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="TestData\SyntaxScoring.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
