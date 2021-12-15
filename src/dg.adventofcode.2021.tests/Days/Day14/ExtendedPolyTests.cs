@@ -63,5 +63,14 @@ namespace dg.adventofcode._2021.tests.Days.Day14
 
             _output.WriteLine(result.ToString());
         }
+
+        [Theory]
+        [MemberData(nameof(Data))]
+        public void ExampleTestCasePart2(params string[] input)
+        {
+            var quantityDiff = new ExtendedPoly().GetQuantityDiff(input.ToList(), 40);
+
+            Assert.Equal(2188189693529, quantityDiff);
+        }
     }
 }
