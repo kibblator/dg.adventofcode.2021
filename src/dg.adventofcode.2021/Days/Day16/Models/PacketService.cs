@@ -67,15 +67,14 @@ public class PacketService
             if (GetPacketType(binaryString) != PacketType.SingleNumber)
             {
                 var subPacketLength = GetSubPacketLength(binaryString);
+                var subPacketCount = GetSubPacketCount(binaryString);
 
                 if (subPacketLength > 0)
                 {
                     subPackets.Add(new Packet(binaryString.Substring(0, 22 + subPacketLength)));
                     binaryString = binaryString.Substring(22 + subPacketLength);
                 }
-
-                var subPacketCount = GetSubPacketCount(binaryString);
-                if (subPacketCount > 0)
+                else if (subPacketCount > 0)
                 {
                     subPackets.Add(HandleCountPackages(ref binaryString, subPacketCount));
                 }
@@ -113,7 +112,9 @@ public class PacketService
             }
         }
 
-        return new Packet(binaryString.Substring(0, binaryString.Length - packagesString.Length));
+        var packet = new Packet(binaryString.Substring(0, binaryString.Length - packagesString.Length));
+        binaryString = binaryString.Substring(binaryString.Length - packagesString.Length, binaryString.Length - (binaryString.Length - packagesString.Length));
+        return packet;
     }
 
     private static Packet GetLiteralPacketFromString(ref string binaryString)

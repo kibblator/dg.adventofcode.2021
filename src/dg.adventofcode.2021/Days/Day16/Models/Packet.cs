@@ -21,6 +21,8 @@
             ? 0
             : PacketService.GetSubPacketCount(_binaryString);
 
+        public long VersionSum => Version + SubPackets.Sum(sp => sp.VersionSum);
+
         public List<Packet> SubPackets
         {
             get

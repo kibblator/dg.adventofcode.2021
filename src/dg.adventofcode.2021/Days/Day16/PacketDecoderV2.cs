@@ -1,13 +1,15 @@
-﻿using dg.adventofcode._2021.Days.Day16.Services;
+﻿using dg.adventofcode._2021.Days.Day16.Models;
+using dg.adventofcode._2021.Days.Day16.Services;
 
 namespace dg.adventofcode._2021.Days.Day16
 {
     public class PacketDecoderV2
     {
-        public void Decode(string hexInput)
+        public long GetVersionSum(string hexInput)
         {
             var binary = HexToBinaryService.Convert(hexInput);
-
+            var packet = new Packet(binary);
+            return packet.VersionSum;
         }
     }
 }
