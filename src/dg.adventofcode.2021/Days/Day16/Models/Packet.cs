@@ -29,7 +29,12 @@
                 {
                     if (SubPacketLength > 0)
                     {
-                        _subPackets = PacketService.GetSubPackets(_binaryString.Substring(22, _binaryString.Length - 22));
+                        _subPackets =
+                            PacketService.GetSubPackets(_binaryString.Substring(22, _binaryString.Length - 22));
+                    } else if (SubPacketCount > 0)
+                    {
+                        _subPackets =
+                            PacketService.GetSubPackets(_binaryString.Substring(18, _binaryString.Length - 18));
                     }
                 }
 

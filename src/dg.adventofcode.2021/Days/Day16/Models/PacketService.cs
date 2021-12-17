@@ -73,6 +73,12 @@ public class PacketService
                     subPackets.Add(new Packet(binaryString.Substring(0, 22 + subPacketLength)));
                     binaryString = binaryString.Substring(22 + subPacketLength);
                 }
+
+                var subPacketCount = GetSubPacketCount(binaryString);
+                if (subPacketCount > 0)
+                {
+                    subPackets.Add(HandleCountPackages(ref binaryString, subPacketCount));
+                }
             }
             else
             {
@@ -80,6 +86,34 @@ public class PacketService
             }
         }
         return subPackets;
+    }
+
+    private static Packet HandleCountPackages(ref string binaryString, int subPacketCount)
+    {
+        var packagesString = binaryString.Substring(18, binaryString.Length - 18);
+        for (var count = 0; count < subPacketCount; count++)
+        {
+            if (GetPacketType(packagesString) == PacketType.SingleNumber)
+            {
+                GetLiteralPacketFromString(ref packagesString);
+            }
+            else if (GetSubPacketLength(packagesString) > 0)
+            {
+                var subPacketLength = GetSubPacketLength(packagesString);
+
+                packagesString = packagesString.Substring(22 + subPacketLength);
+            }
+            else if (GetSubPacketCount(packagesString) > 0)
+            {
+                var packetCount = GetSubPacketCount(packagesString);
+                if (packetCount > 0)
+                {
+                    HandleCountPackages(ref packagesString, packetCount);
+                }
+            }
+        }
+
+        return new Packet(binaryString.Substring(0, binaryString.Length - packagesString.Length));
     }
 
     private static Packet GetLiteralPacketFromString(ref string binaryString)
