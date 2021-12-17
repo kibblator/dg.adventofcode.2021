@@ -1,4 +1,5 @@
-﻿using dg.adventofcode._2021.Days.Day16.Models;
+﻿using System.Linq;
+using dg.adventofcode._2021.Days.Day16.Models;
 using Xunit;
 
 namespace dg.adventofcode._2021.tests.Days.Day16.Services
@@ -18,7 +19,7 @@ namespace dg.adventofcode._2021.tests.Days.Day16.Services
 
             Assert.Equal(expectedVersion, packet.Version);
             Assert.Equal(expectedType, (int)packet.Type);
-            Assert.Equal(expectedValue, packet.Value());
+            Assert.Equal(expectedValue, packet.Value);
         }
 
         [Theory]
@@ -45,11 +46,27 @@ namespace dg.adventofcode._2021.tests.Days.Day16.Services
 
         [Theory]
         [InlineData("110100101111111000101000", 0)]
+        [InlineData("00111000000000000110111101000101001010010001001000000000", 2)]
         public void OperatorPacket_ReturnsCorrectNumSubPackets(string binaryInput, int expectedSubPacketCount)
         {
             var packet = new Packet(binaryInput);
 
             Assert.Equal(expectedSubPacketCount, packet.SubPackets.Count);
+        }
+
+        [Theory]
+        [InlineData("00111000000000000110111101000101001010010001001000000000", 10, 20)]
+        [InlineData("11101110000000001101010000001100100000100011000001100000", 1, 2, 3)]
+        public void OperatorPacket_ReturnsCorrectValueInSubPackets(string binaryInput, params int[] expectedSubPacketValues)
+        {
+            var packet = new Packet(binaryInput);
+
+            Assert.True(packet.SubPackets.Any());
+
+            foreach (var (expectedSubPacketValue, i) in expectedSubPacketValues.Select((v, i) => (v, i)))
+            {
+                Assert.Equal(expectedSubPacketValue, packet.SubPackets[i].Value);
+            }
         }
     }
 }

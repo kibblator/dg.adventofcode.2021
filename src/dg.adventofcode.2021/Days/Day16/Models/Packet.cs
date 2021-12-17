@@ -27,21 +27,27 @@
             {
                 if (_subPackets == null && Type != PacketType.SingleNumber)
                 {
-                    _subPackets = PacketService.GetPackets(_binaryString);
+                    if (SubPacketLength > 0)
+                    {
+                        _subPackets = PacketService.GetSubPackets(_binaryString.Substring(22, _binaryString.Length - 22));
+                    }
                 }
 
-                return new List<Packet>();
+                return _subPackets == null ? new List<Packet>() : _subPackets;
             }
         }
 
-        public long Value()
+        public long Value
         {
-            switch (Type)
+            get
             {
-                case PacketType.SingleNumber:
-                    return PacketService.GetLiteralValue(_binaryString);
-                default: 
-                    return 0;
+                switch (Type)
+                {
+                    case PacketType.SingleNumber:
+                        return PacketService.GetLiteralValue(_binaryString);
+                    default:
+                        return 0;
+                }
             }
         }
     }

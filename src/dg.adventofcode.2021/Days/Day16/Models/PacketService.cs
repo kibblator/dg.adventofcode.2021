@@ -58,8 +58,48 @@ public class PacketService
         return 0;
     }
 
-    public static List<Packet> GetPackets(string binaryString)
+    public static List<Packet> GetSubPackets(string binaryString)
     {
-        return null;
+        var subPackets = new List<Packet>();
+
+        while (binaryString.Any(bs => bs == '1'))
+        {
+            if (GetPacketType(binaryString) != PacketType.SingleNumber)
+            {
+                var subPacketLength = GetSubPacketLength(binaryString);
+
+                if (subPacketLength > 0)
+                {
+                    subPackets.Add(new Packet(binaryString.Substring(0, 22 + subPacketLength)));
+                    binaryString = binaryString.Substring(22 + subPacketLength);
+                }
+            }
+            else
+            {
+                subPackets.Add(GetLiteralPacketFromString(ref binaryString));
+            }
+        }
+        return subPackets;
+    }
+
+    private static Packet GetLiteralPacketFromString(ref string binaryString)
+    {
+        var header = binaryString.Substring(0, 6);
+        var stringWithoutHeaders = binaryString.Substring(6, binaryString.Length - 6);
+
+        var end = false;
+        var valueString = "";
+        while (end == false)
+        {
+            var value = stringWithoutHeaders.Substring(0, 5);
+            if (value[0] == '0')
+                end = true;
+            valueString += value.Substring(0, 5);
+            stringWithoutHeaders = stringWithoutHeaders.Substring(5, stringWithoutHeaders.Length - 5);
+        }
+
+        binaryString = binaryString.Substring(6 + valueString.Length,
+            binaryString.Length - (6 + valueString.Length));
+        return new Packet(header + valueString);
     }
 }
