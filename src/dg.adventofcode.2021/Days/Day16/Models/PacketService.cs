@@ -16,19 +16,50 @@ public class PacketService
 
     public static long GetLiteralValue(string binaryString)
     {
-        var valueBits = binaryString.Substring(6, binaryString.Length - 6);
+        var stringWithoutHeaders = binaryString.Substring(6, binaryString.Length - 6);
 
         var end = false;
         var resultingValueString = "";
         while (end == false)
         {
-            var value = valueBits.Substring(0, 5);
+            var value = stringWithoutHeaders.Substring(0, 5);
             if (value[0] == '0')
                 end = true;
             resultingValueString += value.Substring(1, 4);
-            valueBits = valueBits.Substring(5, valueBits.Length - 5);
+            stringWithoutHeaders = stringWithoutHeaders.Substring(5, stringWithoutHeaders.Length - 5);
         }
 
         return Convert.ToInt32(resultingValueString, 2);
+    }
+
+    public static int GetSubPacketLength(string binaryString)
+    {
+        var stringWithoutHeaders = binaryString.Substring(6, binaryString.Length - 6);
+        var lengthBits = stringWithoutHeaders[0] == '0' ? 15 : 11;
+
+        if (lengthBits == 15)
+        {
+            return Convert.ToInt32(stringWithoutHeaders.Substring(1, lengthBits),2);
+        }
+
+        return 0;
+    }
+
+    public static int GetSubPacketCount(string binaryString)
+    {
+        var stringWithoutHeaders = binaryString.Substring(6, binaryString.Length - 6);
+        var lengthBits = stringWithoutHeaders[0] == '0' ? 15 : 11;
+
+        if (lengthBits == 11)
+        {
+            return Convert.ToInt32(stringWithoutHeaders.Substring(1, lengthBits), 2);
+        }
+
+        return 0;
+    }
+
+    public static List<Packet> GetPackets(string binaryString)
+    {
+        return null;
     }
 }

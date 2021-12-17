@@ -20,5 +20,36 @@ namespace dg.adventofcode._2021.tests.Days.Day16.Services
             Assert.Equal(expectedType, (int)packet.Type);
             Assert.Equal(expectedValue, packet.Value());
         }
+
+        [Theory]
+        [InlineData("00111000000000000110111101000101001010010001001000000000", 1, 6, 27)]
+        public void OperatorPacket_ReturnsCorrectAttributes(string binaryInput, int expectedVersion, int expectedType, int expectedSubPacketLength)
+        {
+            var packet = new Packet(binaryInput);
+
+            Assert.Equal(expectedVersion, packet.Version);
+            Assert.Equal(expectedType, (int)packet.Type);
+            Assert.Equal(expectedSubPacketLength, packet.SubPacketLength);
+        }
+
+        [Theory]
+        [InlineData("11101110000000001101010000001100100000100011000001100000", 7, 3, 3)]
+        public void OperatorPacketType2_ReturnsCorrectAttributes(string binaryInput, int expectedVersion, int expectedType, int expectedNumOfSubPackets)
+        {
+            var packet = new Packet(binaryInput);
+
+            Assert.Equal(expectedVersion, packet.Version);
+            Assert.Equal(expectedType, (int)packet.Type);
+            Assert.Equal(expectedNumOfSubPackets, packet.SubPacketCount);
+        }
+
+        [Theory]
+        [InlineData("110100101111111000101000", 0)]
+        public void OperatorPacket_ReturnsCorrectNumSubPackets(string binaryInput, int expectedSubPacketCount)
+        {
+            var packet = new Packet(binaryInput);
+
+            Assert.Equal(expectedSubPacketCount, packet.SubPackets.Count);
+        }
     }
 }
