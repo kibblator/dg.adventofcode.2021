@@ -29,7 +29,7 @@ public class PacketService
             stringWithoutHeaders = stringWithoutHeaders.Substring(5, stringWithoutHeaders.Length - 5);
         }
 
-        return Convert.ToInt32(resultingValueString, 2);
+        return Convert.ToInt64(resultingValueString, 2);
     }
 
     public static int GetSubPacketLength(string binaryString)

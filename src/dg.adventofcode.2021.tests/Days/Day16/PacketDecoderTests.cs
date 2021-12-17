@@ -56,5 +56,17 @@ namespace dg.adventofcode._2021.tests.Days.Day16
 
             _output.WriteLine(result.ToString());
         }
+
+        [Fact]
+        public void Part2Test()
+        {
+            var textFileLoader = new TextFileLoader();
+            var input = textFileLoader.LoadString("TestData\\PacketDecoder.txt");
+
+            var packetDecoder = new PacketDecoderV2();
+            var result = packetDecoder.GetValue(input);
+
+            _output.WriteLine(result.ToString());
+        }
     }
 }
