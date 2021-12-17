@@ -2,6 +2,7 @@
 
 public enum PacketType
 {
+    Sum = 0,
     Product = 1,
     Min = 2,
     Max = 3,

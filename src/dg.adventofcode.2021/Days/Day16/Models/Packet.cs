@@ -52,6 +52,8 @@
                 {
                     case PacketType.SingleNumber:
                         return PacketService.GetLiteralValue(_binaryString);
+                    case PacketType.Sum:
+                        return SubPackets.Sum(sp => sp.Value);
                     default:
                         return 0;
                 }

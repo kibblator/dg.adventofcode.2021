@@ -11,5 +11,12 @@ namespace dg.adventofcode._2021.Days.Day16
             var packet = new Packet(binary);
             return packet.VersionSum;
         }
+
+        public long GetValue(string hexInput)
+        {
+            var binary = HexToBinaryService.Convert(hexInput);
+            var packet = new Packet(binary);
+            return packet.Value;
+        }
     }
 }
