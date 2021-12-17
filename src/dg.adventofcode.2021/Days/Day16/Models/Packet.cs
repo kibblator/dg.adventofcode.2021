@@ -54,6 +54,18 @@
                         return PacketService.GetLiteralValue(_binaryString);
                     case PacketType.Sum:
                         return SubPackets.Sum(sp => sp.Value);
+                    case PacketType.Product:
+                        return SubPackets.Select(sp => sp.Value).Aggregate((sp, ps) => sp * ps);
+                    case PacketType.Min:
+                        return SubPackets.Min(sp => sp.Value);
+                    case PacketType.Max:
+                        return SubPackets.Max(sp => sp.Value);
+                    case PacketType.GreaterThan:
+                        return SubPackets[0].Value > SubPackets[1].Value ? 1 : 0;
+                    case PacketType.LessThan:
+                        return SubPackets[0].Value < SubPackets[1].Value ? 1 : 0;
+                    case PacketType.EqualTo:
+                        return SubPackets[0].Value == SubPackets[1].Value ? 1 : 0;
                     default:
                         return 0;
                 }
